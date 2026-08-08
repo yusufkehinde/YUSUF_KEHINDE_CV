@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kehinde Ayuba Yusuf — Electrical Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0A1420;
+    --bg-panel:#0E1D2E;
+    --bg-panel-2:#0C1826;
+    --grid:rgba(70,199,224,0.07);
+    --cyan:#4FD1E8;
+    --cyan-dim:rgba(79,209,232,0.35);
+    --copper:#D9975A;
+    --copper-dim:rgba(217,151,90,0.35);
+    --text:#EAF0F5;
+    --text-dim:#8DA0B3;
+    --text-faint:#546274;
+    --border:rgba(255,255,255,0.09);
+    --display: 'Space Grotesk', sans-serif;
+    --mono: 'JetBrains Mono', monospace;
+    --body: 'Inter', sans-serif;
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box;}
+
+  html{scroll-behavior:smooth;}
+
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--body);
+    line-height:1.6;
+    background-image:
+      linear-gradient(var(--grid) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+    background-size:44px 44px;
+    overflow-x:hidden;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *{animation-duration:0.01ms !important; transition-duration:0.01ms !important;}
+  }
+
+  a{color:inherit;}
+
+  .wrap{
+    max-width:920px;
+    margin:0 auto;
+    padding:0 28px;
+    position:relative;
+  }
+
+  /* ===== circuit spine ===== */
+  .spine{
+    position:absolute;
+    left:0;
+    top:0;
+    width:2px;
+    height:100%;
+    background:linear-gradient(to bottom, transparent, var(--border) 4%, var(--border) 96%, transparent);
+    display:none;
+  }
+  @media(min-width:860px){
+    .spine{display:block; left:-40px;}
+  }
+  .node-dot{
+    position:absolute;
+    left:-45px;
+    width:11px;height:11px;
+    border-radius:50%;
+    background:var(--bg);
+    border:2px solid var(--cyan-dim);
+    transform:translateX(0);
+  }
+  .node-dot.lit{border-color:var(--cyan); box-shadow:0 0 10px var(--cyan-dim);}
+  @media(max-width:859px){ .node-dot{display:none;} }
+
+  /* ===== header / nav ===== */
+  header{
+    position:sticky; top:0; z-index:50;
+    background:rgba(10,20,32,0.85);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--border);
+  }
+  .nav-inner{
+    max-width:920px; margin:0 auto; padding:16px 28px;
+    display:flex; align-items:center; justify-content:space-between;
+    font-family:var(--mono); font-size:12.5px; letter-spacing:0.04em;
+  }
+  .brand{display:flex; align-items:center; gap:10px; font-family:var(--display); font-weight:600; font-size:15px; color:var(--text);}
+  .brand-mark{width:9px;height:9px;background:var(--cyan);box-shadow:0 0 8px var(--cyan);}
+  nav ul{list-style:none; display:flex; gap:22px;}
+  nav a{color:var(--text-dim); text-decoration:none; transition:color .2s;}
+  nav a:hover{color:var(--cyan);}
+  @media(max-width:700px){ nav ul{display:none;} }
+
+  /* ===== hero ===== */
+  .hero{
+    padding:96px 0 72px;
+    position:relative;
+  }
+  .eyebrow{
+    font-family:var(--mono); font-size:12.5px; color:var(--cyan);
+    letter-spacing:0.12em; text-transform:uppercase;
+    display:flex; align-items:center; gap:10px; margin-bottom:22px;
+  }
+  .eyebrow::before{content:''; width:22px; height:1px; background:var(--cyan);}
+
+  h1.name{
+    font-family:var(--display); font-weight:700;
+    font-size:clamp(38px, 7vw, 68px);
+    line-height:1.02; letter-spacing:-0.01em;
+    color:var(--text);
+  }
+  h1.name .last{color:var(--cyan);}
+
+  .role{
+    font-family:var(--mono); font-size:clamp(14px,2vw,17px);
+    color:var(--copper); margin-top:14px; letter-spacing:0.02em;
+  }
+
+  .lede{
+    max-width:600px; margin-top:26px;
+    color:var(--text-dim); font-size:16px;
+  }
+
+  .hero-actions{
+    display:flex; flex-wrap:wrap; gap:14px; margin-top:36px;
+  }
+  .btn{
+    font-family:var(--mono); font-size:13px; letter-spacing:0.03em;
+    padding:13px 22px; border-radius:2px; text-decoration:none;
+    display:inline-flex; align-items:center; gap:10px;
+    transition:transform .15s ease, box-shadow .15s ease, background .15s ease;
+    border:1px solid transparent;
+  }
+  .btn-primary{background:var(--cyan); color:#03181f; font-weight:600;}
+  .btn-primary:hover{transform:translateY(-2px); box-shadow:0 8px 24px -8px var(--cyan-dim);}
+  .btn-ghost{border-color:var(--border); color:var(--text);}
+  .btn-ghost:hover{border-color:var(--cyan-dim); color:var(--cyan); transform:translateY(-2px);}
+
+  /* title block, engineering-drawing style */
+  .title-block{
+    margin-top:64px; border:1px solid var(--border);
+    max-width:520px; font-family:var(--mono); font-size:11.5px;
+    background:var(--bg-panel-2);
+  }
+  .tb-row{display:flex; border-bottom:1px solid var(--border);}
+  .tb-row:last-child{border-bottom:none;}
+  .tb-cell{flex:1; padding:9px 12px; border-right:1px solid var(--border);}
+  .tb-cell:last-child{border-right:none;}
+  .tb-label{color:var(--text-faint); text-transform:uppercase; letter-spacing:0.08em; font-size:9.5px; display:block; margin-bottom:3px;}
+  .tb-value{color:var(--text-dim);}
+
+  /* ===== sections ===== */
+  section{
+    padding:64px 0; border-top:1px solid var(--border);
+    position:relative;
+  }
+  .sec-head{margin-bottom:38px; position:relative;}
+  .sec-num{
+    font-family:var(--mono); font-size:12px; color:var(--text-faint);
+    letter-spacing:0.1em; margin-bottom:10px; display:block;
+  }
+  .sec-num b{color:var(--copper);}
+  h2.sec-title{
+    font-family:var(--display); font-weight:600;
+    font-size:clamp(24px,3.4vw,32px); letter-spacing:-0.01em;
+  }
+  .sec-sub{color:var(--text-dim); margin-top:10px; max-width:600px; font-size:15px;}
+
+  /* profile */
+  .profile-text{max-width:680px; color:var(--text-dim); font-size:16px;}
+  .profile-text b{color:var(--text); font-weight:600;}
+
+  /* competencies */
+  .comp-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:1px; background:var(--border); border:1px solid var(--border);}
+  .comp-card{background:var(--bg-panel-2); padding:22px;}
+  .comp-card h3{
+    font-family:var(--mono); font-size:12px; color:var(--cyan);
+    letter-spacing:0.06em; text-transform:uppercase; margin-bottom:12px;
+  }
+  .comp-card ul{list-style:none; display:flex; flex-direction:column; gap:8px;}
+  .comp-card li{font-size:14px; color:var(--text-dim); padding-left:16px; position:relative;}
+  .comp-card li::before{content:'—'; position:absolute; left:0; color:var(--text-faint);}
+
+  /* experience timeline */
+  .exp-item{
+    padding:26px 0; border-bottom:1px solid var(--border);
+    display:grid; grid-template-columns:150px 1fr; gap:24px;
+  }
+  .exp-item:last-child{border-bottom:none;}
+  @media(max-width:640px){ .exp-item{grid-template-columns:1fr;} }
+  .exp-date{font-family:var(--mono); font-size:12.5px; color:var(--copper); white-space:nowrap;}
+  .exp-role{font-family:var(--display); font-weight:600; font-size:18px; margin-bottom:3px;}
+  .exp-org{color:var(--text-dim); font-size:14px; margin-bottom:12px; font-family:var(--mono);}
+  .exp-list{list-style:none; display:flex; flex-direction:column; gap:7px;}
+  .exp-list li{font-size:14.5px; color:var(--text-dim); padding-left:16px; position:relative;}
+  .exp-list li::before{content:'▸'; position:absolute; left:0; color:var(--cyan-dim); font-size:11px; top:3px;}
+
+  /* education */
+  .edu-item{margin-bottom:26px;}
+  .edu-item:last-child{margin-bottom:0;}
+  .edu-degree{font-family:var(--display); font-weight:600; font-size:18px;}
+  .edu-school{color:var(--copper); font-family:var(--mono); font-size:13px; margin-top:4px;}
+  .edu-detail{color:var(--text-dim); font-size:14.5px; margin-top:10px; max-width:600px;}
+
+  /* two-col lists (memberships / conferences / awards / leadership) */
+  .flat-list{list-style:none; display:flex; flex-direction:column; gap:14px;}
+  .flat-list li{
+    font-size:14.5px; color:var(--text-dim); padding-left:20px; position:relative;
+    border-left:1px solid var(--border); padding-left:18px;
+  }
+  .flat-list li b{color:var(--text); font-weight:600; display:block; margin-bottom:2px; font-family:var(--body);}
+  .flat-list li span.meta{font-family:var(--mono); font-size:12px; color:var(--text-faint);}
+
+  .two-col{display:grid; grid-template-columns:1fr 1fr; gap:40px;}
+  @media(max-width:700px){ .two-col{grid-template-columns:1fr;} }
+
+  /* contact */
+  .contact-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:1px; background:var(--border); border:1px solid var(--border); margin-top:32px;}
+  .contact-card{background:var(--bg-panel-2); padding:24px; text-decoration:none; display:flex; flex-direction:column; gap:8px; transition:background .2s;}
+  .contact-card:hover{background:var(--bg-panel);}
+  .contact-card .label{font-family:var(--mono); font-size:11px; color:var(--text-faint); text-transform:uppercase; letter-spacing:0.08em;}
+  .contact-card .value{font-family:var(--display); font-size:16px; color:var(--text); word-break:break-word;}
+  .contact-card:hover .value{color:var(--cyan);}
+
+  footer{
+    padding:40px 0 60px; border-top:1px solid var(--border);
+    font-family:var(--mono); font-size:12px; color:var(--text-faint);
+    display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px;
+  }
+
+  .reveal{opacity:0; transform:translateY(14px); transition:opacity .6s ease, transform .6s ease;}
+  .reveal.in{opacity:1; transform:translateY(0);}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav-inner">
+    <div class="brand"><span class="brand-mark"></span> K.A. YUSUF</div>
+    <nav>
+      <ul>
+        <li><a href="#profile">Profile</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#experience">Experience</a></li>
+        <li><a href="#education">Education</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<div class="wrap">
+<div class="spine"></div>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="eyebrow">Ede, Osun State, Nigeria</div>
+    <h1 class="name">KEHINDE AYUBA<br><span class="last">YUSUF</span></h1>
+    <div class="role">ELECTRICAL ENGINEER — INSTALLATION · CONTROL SYSTEMS · LOW-VOLTAGE</div>
+    <p class="lede">B.Sc. Electrical/Electronic Engineering graduate (OAU) with hands-on field experience in conduit &amp; surface wiring, CCTV/DSTV/inverter installation, and academic grounding in multivariable control systems. Founder of an electrical &amp; telecom service company — bringing both toolbelt and textbook to an engineering team.</p>
+
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="mailto:yusufkehinde8@gmail.com">Email me →</a>
+      <a class="btn btn-ghost" href="tel:+2348102377511">Call +234 810 237 7511</a>
+      <a class="btn btn-ghost" href="https://linkedin.com/in/kehinde-yusuf-66886416b" target="_blank" rel="noopener">LinkedIn</a>
+      <a class="btn btn-ghost" href="Kehinde_Ayuba_Yusuf_CV.pdf" download>Download CV (PDF)</a>
+    </div>
+
+    <div class="title-block">
+      <div class="tb-row">
+        <div class="tb-cell"><span class="tb-label">Drawn by</span><span class="tb-value">K. A. Yusuf</span></div>
+        <div class="tb-cell"><span class="tb-label">Discipline</span><span class="tb-value">Electrical / Control</span></div>
+      </div>
+      <div class="tb-row">
+        <div class="tb-cell"><span class="tb-label">Institution</span><span class="tb-value">Obafemi Awolowo Univ.</span></div>
+        <div class="tb-cell"><span class="tb-label">Class</span><span class="tb-value">2nd Class Hons. (Lower)</span></div>
+      </div>
+      <div class="tb-row">
+        <div class="tb-cell"><span class="tb-label">Sheet</span><span class="tb-value">01 of 01</span></div>
+        <div class="tb-cell"><span class="tb-label">Status</span><span class="tb-value" style="color:var(--cyan)">Open to opportunities</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROFILE -->
+  <section id="profile" class="reveal">
+    <div class="node-dot"></div>
+    <div class="sec-head">
+      <span class="sec-num"><b>N1</b> — PROFILE</span>
+      <h2 class="sec-title">Field-tested, then formalized</h2>
+    </div>
+    <p class="profile-text">
+      Kehinde's engineering started years before the degree did — repairing gadgets and running surface wiring as a teenage apprentice, long before multivariable control theory entered the picture at Obafemi Awolowo University. That order shows: <b>his final-year project applied Internal Model Control strategy to multivariable systems</b>, while his day-to-day work has meant conduit wiring at housing estates, CCTV rigs at filling stations, and inverter installs in client homes. He now runs <b>YusRiKTek</b>, his own electrical and telecommunication service company, managing installs end-to-end — quoting, scheduling, wiring, and client handover.
+    </p>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills" class="reveal">
+    <div class="node-dot"></div>
+    <div class="sec-head">
+      <span class="sec-num"><b>N2</b> — CORE COMPETENCIES</span>
+      <h2 class="sec-title">What's on the bench</h2>
+    </div>
+    <div class="comp-grid">
+      <div class="comp-card">
+        <h3>Electrical Installation</h3>
+        <ul>
+          <li>Conduit &amp; surface wiring</li>
+          <li>Panel work</li>
+          <li>Inverter &amp; low-voltage systems</li>
+        </ul>
+      </div>
+      <div class="comp-card">
+        <h3>Low-Voltage &amp; Security</h3>
+        <ul>
+          <li>CCTV installation &amp; setup</li>
+          <li>DSTV / satellite systems</li>
+        </ul>
+      </div>
+      <div class="comp-card">
+        <h3>Control Systems</h3>
+        <ul>
+          <li>MATLAB / Simulink</li>
+          <li>Multivariable controller design</li>
+          <li>Internal Model Control (IMC)</li>
+        </ul>
+      </div>
+      <div class="comp-card">
+        <h3>Software &amp; Digital</h3>
+        <ul>
+          <li>Python</li>
+          <li>HTML / CSS</li>
+          <li>Web3 / blockchain fundamentals</li>
+        </ul>
+      </div>
+      <div class="comp-card">
+        <h3>Project &amp; Client Mgmt</h3>
+        <ul>
+          <li>Job scheduling</li>
+          <li>Quality control</li>
+          <li>Client communication</li>
+        </ul>
+      </div>
+      <div class="comp-card">
+        <h3>Leadership</h3>
+        <ul>
+          <li>Team coordination</li>
+          <li>Technical facilitation</li>
+          <li>Training delivery</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section id="experience" class="reveal">
+    <div class="node-dot"></div>
+    <div class="sec-head">
+      <span class="sec-num"><b>N3</b> — PROFESSIONAL EXPERIENCE</span>
+      <h2 class="sec-title">The install history</h2>
+    </div>
+
+    <div class="exp-item">
+      <div class="exp-date">MAR 2020 — PRESENT</div>
+      <div>
+        <div class="exp-role">Chief Executive Officer</div>
+        <div class="exp-org">YusRiKTek Electrical and Telecommunication Service</div>
+        <ul class="exp-list">
+          <li>Founded and run an electrical and telecommunication service company serving residential and commercial clients</li>
+          <li>Oversee installation of CCTV systems, DSTV/satellite setups, and electrical wiring across client sites</li>
+          <li>Manage client relationships, job scheduling, and on-site quality control</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="exp-item">
+      <div class="exp-date">OCT 2018 — MAR 2019</div>
+      <div>
+        <div class="exp-role">Undergraduate Intern</div>
+        <div class="exp-org">EMTECH Electrical and Telecommunication</div>
+        <ul class="exp-list">
+          <li>Part of the electrical team that installed conduit wiring at Lekki Housing Estate and the newly constructed Owode Central Mosque, Ede</li>
+          <li>Installed CCTV cameras at a Sadesh Global Limited filling station in Akure</li>
+          <li>Installed CCTV, DSTV, and inverter systems at a client residence in Lekki Housing Estate</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="exp-item">
+      <div class="exp-date">JUN 2006 — DEC 2010</div>
+      <div>
+        <div class="exp-role">Apprentice Technician</div>
+        <div class="exp-org">Okunloye Electronics, Ede</div>
+        <ul class="exp-list">
+          <li>Repaired a range of consumer electronics and electrical gadgets</li>
+          <li>Installed surface electrical wiring in residential settings</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="exp-item">
+      <div class="exp-date">JUL 2020 — AUG 2020</div>
+      <div>
+        <div class="exp-role">Filling Station Supervisor</div>
+        <div class="exp-org">Sadesh Global Limited, Ife</div>
+        <ul class="exp-list">
+          <li>Supervised day-to-day operations at a filling station location</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="exp-item">
+      <div class="exp-date">2013 — 2024</div>
+      <div>
+        <div class="exp-role">Mathematics &amp; Physics Tutor</div>
+        <div class="exp-org">An-Nujoom Int'l Group of Schools · Atau Islamic College · NYSC (United Union College) · Fortunate Tutorial Centre</div>
+        <ul class="exp-list">
+          <li>Taught Mathematics, Further Mathematics, and Physics at junior and senior secondary level</li>
+          <li>Coordinated examination supervision, scoring, and tutorial centre operations</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="exp-item">
+      <div class="exp-date">SEP 2020 — PRESENT</div>
+      <div>
+        <div class="exp-role">Independent Web Developer &amp; Blockchain Researcher</div>
+        <div class="exp-org">Self-directed</div>
+        <ul class="exp-list">
+          <li>Self-taught web development (HTML/CSS) and independent cryptocurrency/Web3 research</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- EDUCATION -->
+  <section id="education" class="reveal">
+    <div class="node-dot"></div>
+    <div class="sec-head">
+      <span class="sec-num"><b>N4</b> — EDUCATION</span>
+      <h2 class="sec-title">Where the theory came from</h2>
+    </div>
+
+    <div class="edu-item">
+      <div class="edu-degree">B.Sc. Electronic and Electrical Engineering</div>
+      <div class="edu-school">OBAFEMI AWOLOWO UNIVERSITY, ILE-IFE, NIGERIA · 2015 – 2020</div>
+      <div class="edu-detail">Second Class Honours (Lower Division). Final-year project: <em>"Development of Controllers for Multivariable Systems using Analytical Decoupling of Internal Model Control Strategy."</em></div>
+    </div>
+
+    <div class="edu-item">
+      <div class="edu-degree">Senior Secondary School Certificate (WAEC)</div>
+      <div class="edu-school">OBA-LAOYE GRAMMAR SCHOOL, EDE, OSUN STATE · 2009 – 2012</div>
+      <div class="edu-detail">Graduated as second-best student in the school.</div>
+    </div>
+  </section>
+
+  <!-- MEMBERSHIPS / CONFERENCES -->
+  <section class="reveal">
+    <div class="node-dot"></div>
+    <div class="sec-head">
+      <span class="sec-num"><b>N5</b> — MEMBERSHIPS &amp; CONFERENCES</span>
+      <h2 class="sec-title">Standing in the field</h2>
+    </div>
+    <div class="two-col">
+      <div>
+        <h3 style="font-family:var(--mono); font-size:12px; color:var(--cyan); letter-spacing:0.06em; text-transform:uppercase; margin-bottom:16px;">Professional Memberships</h3>
+        <ul class="flat-list">
+          <li><b>International Association of Engineers (IAENG)</b><span class="meta">2020 — Present</span></li>
+          <li><b>Nigeria Institute of Electronics Practitioners (NIEP)</b><span class="meta">2011 — Present</span></li>
+          <li><b>Electronic and Electrical Engineering Students' Society, OAU</b><span class="meta">2015 — 2020</span></li>
+        </ul>
+      </div>
+      <div>
+        <h3 style="font-family:var(--mono); font-size:12px; color:var(--cyan); letter-spacing:0.06em; text-transform:uppercase; margin-bottom:16px;">Conferences &amp; Presentations</h3>
+        <ul class="flat-list">
+          <li><b>IEEE National Conference — "Industrial and Commercial Power Systems in Nigeria"</b><span class="meta">OAU, Jul 2017</span></li>
+          <li><b>International Tek Conference</b><span class="meta">OAU, Nov 2019</span></li>
+          <li><b>EEESS Conference — "Engineers and Society"</b><span class="meta">OAU, Jul 2015</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- LEADERSHIP / AWARDS -->
+  <section class="reveal">
+    <div class="node-dot"></div>
+    <div class="sec-head">
+      <span class="sec-num"><b>N6</b> — LEADERSHIP &amp; AWARDS</span>
+      <h2 class="sec-title">Outside the toolbox</h2>
+    </div>
+    <div class="two-col">
+      <div>
+        <h3 style="font-family:var(--mono); font-size:12px; color:var(--cyan); letter-spacing:0.06em; text-transform:uppercase; margin-bottom:16px;">Leadership &amp; Voluntary Service</h3>
+        <ul class="flat-list">
+          <li><b>Vice President</b>, Environmental Protection and Sanitation Group, NYSC CDS Ilorin<span class="meta">2021 — 2022</span></li>
+          <li><b>Chairman</b>, Ede Day Planning Committee, Federation of Ede Land Student Union, OAU Chapter<span class="meta">2019</span></li>
+          <li><b>Community Service Member</b>, Electronic and Electrical Engineering Students' Society, OAU<span class="meta">2019 — 2020</span></li>
+          <li><b>Ameer (MSSN), Laboratory Prefect, Time Keeper</b>, Oba-Laoye Grammar School<span class="meta">2008 — 2012</span></li>
+        </ul>
+      </div>
+      <div>
+        <h3 style="font-family:var(--mono); font-size:12px; color:var(--cyan); letter-spacing:0.06em; text-transform:uppercase; margin-bottom:16px;">Awards</h3>
+        <ul class="flat-list">
+          <li><b>OAU Muslim Graduate Association Scholarship</b>, worth $350<span class="meta">2017 — 2019</span></li>
+          <li><b>Second-Best Graduating Student</b>, Oba-Laoye Grammar School<span class="meta">2012</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="reveal">
+    <div class="node-dot"></div>
+    <div class="sec-head">
+      <span class="sec-num"><b>N7</b> — CONTACT</span>
+      <h2 class="sec-title">Close the circuit</h2>
+      <p class="sec-sub">Based in Ede, Osun State, Nigeria — open to relocation for the right role. References available on request.</p>
+    </div>
+    <div class="contact-grid">
+      <a class="contact-card" href="mailto:yusufkehinde8@gmail.com">
+        <span class="label">Email</span>
+        <span class="value">yusufkehinde8@gmail.com</span>
+      </a>
+      <a class="contact-card" href="tel:+2348102377511">
+        <span class="label">Phone</span>
+        <span class="value">+234 810 237 7511</span>
+      </a>
+      <a class="contact-card" href="https://linkedin.com/in/kehinde-yusuf-66886416b" target="_blank" rel="noopener">
+        <span class="label">LinkedIn</span>
+        <span class="value">/in/kehinde-yusuf</span>
+      </a>
+      <a class="contact-card" href="Kehinde_Ayuba_Yusuf_CV.pdf" download>
+        <span class="label">Full CV</span>
+        <span class="value">Download PDF ↓</span>
+      </a>
+    </div>
+  </section>
+
+  <footer>
+    <span>© 2026 Kehinde Ayuba Yusuf</span>
+    <span>Ede, Osun State, Nigeria</span>
+  </footer>
+
+</div>
+
+<script>
+  // scroll-reveal for sections, and lighting up spine nodes as they pass
+  const revealEls = document.querySelectorAll('.reveal');
+  const dots = document.querySelectorAll('.node-dot');
+
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){
+        entry.target.classList.add('in');
+        const dot = entry.target.querySelector('.node-dot');
+        if(dot) dot.classList.add('lit');
+      }
+    });
+  }, {threshold:0.15});
+
+  revealEls.forEach(el=>io.observe(el));
+
+  // position each node-dot vertically at its section header
+  function positionDots(){
+    document.querySelectorAll('section').forEach(sec=>{
+      const dot = sec.querySelector('.node-dot');
+      const head = sec.querySelector('.sec-head');
+      if(dot && head){
+        dot.style.top = head.offsetTop + 'px';
+      }
+    });
+  }
+  window.addEventListener('load', positionDots);
+  window.addEventListener('resize', positionDots);
+</script>
+
+</body>
+</html>
